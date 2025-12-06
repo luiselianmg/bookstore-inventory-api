@@ -1,0 +1,213 @@
+{
+	"info": {
+		"_postman_id": "08e81174-43da-43fa-9bc9-4d8f13c63579",
+		"name": "bookstore-inventory-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "50615181",
+		"_collection_link": "https://luiselian-montesg-2809100.postman.co/workspace/Luis-Elian-Montes-Garcia's-Work~b964fc57-1b91-42a9-838a-320abba6b10b/collection/50615181-08e81174-43da-43fa-9bc9-4d8f13c63579?action=share&source=collection_link&creator=50615181"
+	},
+	"item": [
+		{
+			"name": "Create a book",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"title\": \"The Lord of the Rings\",\r\n  \"author\": \"J.R.R. Tolkien\",\r\n  \"isbn\": \"9780544003415\",\r\n  \"costUsd\": 25.99,\r\n  \"stockQuantity\": 50,\r\n  \"category\": \"Fantasy\",\r\n  \"supplierCountry\": \"United States\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/books",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"books"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Books",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/books",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"books"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Book By Id",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/books/1",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"books",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update a Book By Id",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"The Lord of The Baseball\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/books/1",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"books",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a Book By Id",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/books/3",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"books",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Books by Category",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/books/search?category=fantasy",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"books",
+						"search"
+					],
+					"query": [
+						{
+							"key": "category",
+							"value": "fantasy"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Books With Low Stock",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/books/low-stock?threshold=20",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"books",
+						"low-stock"
+					],
+					"query": [
+						{
+							"key": "threshold",
+							"value": "20"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Calculate Suggested Price of a Book",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/books/4/calculate-price",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"books",
+						"4",
+						"calculate-price"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

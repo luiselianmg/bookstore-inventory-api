@@ -1,85 +1,139 @@
+# 📚 Bookstore Inventory API
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
+<p align="center">
+  <img src="https://img.shields.io/badge/NestJS-E0234E?style=for-the-badge&logo=nestjs&logoColor=white" alt="NestJS" />
+  <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
+  <img src="https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white" alt="MongoDB" />
 </p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+## 📋 Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+**Bookstore Inventory API** is a backend solution designed to manage bookstore inventory operations with efficiency and scalability in mind. Built with modern technologies and frameworks.
 
-## Project setup
+---
 
+## 🚀 Quick Start Guide
+
+### **1️⃣ Clone the Repository**
 ```bash
-$ npm install
+$ git clone https://github.com/luiselianmg/bookstore-inventory-api.git
+$ cd bookstore-inventory-api
 ```
 
-## Compile and run the project
-
+## 2️⃣ Environment Configuration
+Copy the environment template file and configure your credentials:
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+$ cp .env.example .env
 ```
 
-## Run tests
+📝 **Note:** The .env.example file already contains dummy credentials that you can use for testing. However, you must create the .env file as the application will not run correctly without it.
 
+## 3️⃣Start with Docker
+Launch the application using Docker Compose:
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+$ docker compose up -d
 ```
+The API will be available at ```http://localhost:3000```
 
-## Resources
+## 📖 API Documentation
 
-Check out a few resources that may come in handy when working with NestJS:
+### Swagger UI
+Access the interactive API documentation at:
+👉 http://localhost:3000/docs
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+This comprehensive documentation provides:
 
-## Support
+<ul>
+  <li>
+    📋 All available endpoints
+  </li>
+  <li>
+    🔍 Request/Response schemas
+  </li>
+  <li>
+    🧪 Interactive testing capabilities
+  </li>
+  <li>
+    📝 Detailed parameter descriptions
+  </li>
+</ul>
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+### Postman Collection
 
-## Stay in touch
+Prefer using Postman? Import the ready-to-use collection:
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+📍 Location: ```postman/bookstore-inventory-api.postman_collection.json```
 
-## License
+This collection includes:
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+<ul>
+  <li>
+    ✅ All API endpoints pre-configured
+  </li>
+  <li>
+    📊 Sample requests
+  </li>
+  <li>
+    🎯 Organized folder structure
+  </li>
+</ul>
+
+## 🛠️ Development
+
+### Project Structure
+
+📦 bookstore-inventory-api </br>
+├── 📁 src/ </br>  
+│   |
+│   ├── 📁book/
+│   │   ├── 📁 domain/           # Core business logic and entities </br> 
+│   │   ├── 📁 application/      # Use cases and application services </br>
+│   │    ├── 📁 infrastructure/  # External adapters and implementations </br>
+│   ├── 📁core/
+│       ├── 📁 application/      # Abstractions needed in the use cases </br> 
+│       ├── 📁 infrastructure/   # Specific implementations of the application abstractions </br>
+│       ├── 📁 utils/            # Abstractions that can be used in every layer of each module </br>
+├── 📁 postman/             # Postman collection </br>
+├── 📄 .env.example         # Environment template </br>
+├── 📄 docker-compose.yml   # Docker configuration </br>
+└── 📄 package.json         # Dependencies </br>
+
+### Architecture Overview - Hexagonal/Three-Layer Architecture
+This project follows a Hexagonal Architecture (also known as Ports and Adapters) combined with a Three-Layer Architecture, ensuring clean separation of concerns and maintainability:
+
+<ul>
+  <li>
+    🏗️ Domain Layer (Core Business Logic)
+  </li>
+  <li>
+    ⚡ Application Layer (Use Cases & Orchestration)
+  </li>
+  <li>
+    🔌 Infrastructure Layer (External Implementations and Entry Point for Communication)
+  </li>
+</ul>
+
+### Architecture Benefits
+<ul>
+  <li>
+    ✅ Clean separation of concerns
+  </li>
+  <li>
+    ✅ Testability (each layer can be tested independently)
+  </li>
+  <li>
+    ✅ Technology agnostic (easy to replace infrastructure components)
+  </li>
+  <li>
+    ✅ Maintainability (clear boundaries between components)
+  </li>
+  <li>
+    ✅ Scalability (components can be scaled independently)
+  </li>
+</ul>
+
+<p align="center"> Made by Luis Elian Montes Garcia </p><p align="center"> 
