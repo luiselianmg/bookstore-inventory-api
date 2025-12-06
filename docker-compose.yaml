@@ -1,0 +1,45 @@
+version: '3.9'
+
+services:
+  mongodb:
+    image: mongo:6.0
+    restart: always
+    ports:
+      - "27017:27017" 
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_DATABASE}
+    container_name: BookstoreDB
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - bookstore-network
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  app:
+    build: .
+    container_name: BookstoreAPI
+    restart: always
+    ports:
+      - "${PORT}:3000"
+    environment:
+      MONGODB_URI: mongodb://${MONGO_ROOT_USERNAME}:${MONGO_ROOT_PASSWORD}@mongodb:27017/${MONGO_DATABASE}?authSource=admin
+      NODE_ENV: ${NODE_ENV}
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    networks:
+      - bookstore-network
+
+volumes:
+  mongo_data:
+
+networks:
+  bookstore-network:
+    driver: bridge
