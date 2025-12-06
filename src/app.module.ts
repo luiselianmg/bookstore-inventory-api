@@ -12,7 +12,7 @@ import { BookModule } from './book/infrastructure/book.module';
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
-        uri: configService.get('MONGODB_URI', 'mongodb://localhost:27017/bookstore'),
+        uri: configService.get('MONGODB_URI', 'mongodb://admin:secret123@localhost:27017/bookstore_db?authSource=admin'),
       }),
       inject: [ConfigService],
     }),

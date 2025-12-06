@@ -1,10 +1,11 @@
 
-import { IsString, IsNotEmpty, Length, IsNumber, Min, IsOptional } from 'class-validator';
+import { IsString,  Length, IsNumber, Min, IsOptional } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class CreateBookDto {
+export class UpdateBookDto {
+
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   @ApiProperty({
     description: 'Title of the book',
     example: 'The Lord of the Rings'
@@ -12,7 +13,7 @@ export class CreateBookDto {
   title: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   @ApiProperty({
     description: 'Author of the book',
     example: 'J.R.R. Tolkien'
@@ -20,7 +21,7 @@ export class CreateBookDto {
   author: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   @Length(10, 13, { message: 'ISBN must be between 10 and 13 characters' })
   @ApiProperty({
     description: 'ISBN number (10-13 characters)',
@@ -29,7 +30,7 @@ export class CreateBookDto {
   isbn: string;
 
   @IsNumber()
-  @IsNotEmpty()
+  @IsOptional()
   @Min(0, { message: 'Cost must be a positive number' })
   @ApiProperty({
     description: 'Cost in USD',
@@ -38,7 +39,7 @@ export class CreateBookDto {
   costUsd: number;
 
   @IsNumber()
-  @IsNotEmpty()
+  @IsOptional()
   @Min(0, { message: 'Stock quantity cannot be negative' })
   @ApiProperty({
     description: 'Quantity in stock',
@@ -47,7 +48,7 @@ export class CreateBookDto {
   stockQuantity: number;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   @ApiProperty({
     description: 'Book category',
     example: 'Fantasy'
@@ -55,7 +56,7 @@ export class CreateBookDto {
   category: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   @ApiProperty({
     description: 'Supplier country',
     example: 'United States'

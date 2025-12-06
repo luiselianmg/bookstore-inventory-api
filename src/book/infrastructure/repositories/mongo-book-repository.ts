@@ -45,13 +45,36 @@ export class MongoBookRepository implements BookRepository {
     }
   }
 
-  async findAllBooks(): Promise<Book[]> {
+  async findAllBooks(
+    page: number = 1,
+    limit: number = 10,
+  ): Promise<{
+    books: Book[];
+    total: number;
+    page: number;
+    limit: number;
+  }> {
     try {
-      const mongoBooks = await this.bookModel.find().sort({ id: 1 }).exec();
+      const skip = (page - 1) * limit;
 
-      return BookMapper.toDomainList(mongoBooks);
+      const [books, total] = await Promise.all([
+        this.bookModel
+          .find()
+          .sort({ id: 1 }) // Ordenar por id ascendente
+          .skip(skip)
+          .limit(limit)
+          .exec(),
+        this.bookModel.countDocuments().exec(),
+      ]);
+
+      return {
+        books: BookMapper.toDomainList(books),
+        total,
+        page,
+        limit,
+      };
     } catch (error) {
-      throw new Error(`Failed to fetch books: ${error.message}`);
+      throw new Error(`Failed to fetch paginated books: ${error.message}`);
     }
   }
 
@@ -134,18 +157,18 @@ export class MongoBookRepository implements BookRepository {
     }
   }
 
-  async getBooksWithLowStock(threshold: number): Promise<Book[]> {
-    try {
-      const mongoBooks = await this.bookModel
-        .find({
-          stockQuantity: { $lt: threshold },
-        })
-        .sort({ stockQuantity: 1 })
-        .exec();
+async getBooksWithLowStock(threshold: number): Promise<Book[]> {
+  try {
+    const mongoBooks = await this.bookModel
+      .find({
+        stockQuantity: { $lte: threshold },
+      })
+      .sort({ stockQuantity: 1 })
+      .exec();
 
-      return BookMapper.toDomainList(mongoBooks);
-    } catch (error) {
-      throw new Error(`Failed to fetch books with low stock: ${error.message}`);
-    }
+    return BookMapper.toDomainList(mongoBooks);
+  } catch (error) {
+    throw new Error(`Failed to fetch books with low stock: ${error.message}`);
   }
+}
 }
