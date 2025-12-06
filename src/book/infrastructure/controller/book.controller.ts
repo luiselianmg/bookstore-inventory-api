@@ -55,12 +55,16 @@ export class BookController {
   })
   @Post()
   async createBook(@Body() createBookDto: CreateBookDto) {
-    const service = new CreateBookCommandHandler(
-      this._mongoBookRepository,
-      this._numericIdGenerator,
-    );
-    const result = await service.execute(createBookDto);
-    return result.unwrap();
+    try {
+      const service = new CreateBookCommandHandler(
+        this._mongoBookRepository,
+        this._numericIdGenerator,
+      );
+      const result = await service.execute(createBookDto);
+      return result.unwrap();
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
   }
 
   @Get('search')
@@ -102,8 +106,9 @@ export class BookController {
     } catch (error) {
       if (error instanceof NoBooksFoundException) {
         throw new NotFoundException(error.message);
+      } else {
+        throw error;
       }
-      throw error;
     }
   }
 
@@ -145,8 +150,9 @@ export class BookController {
     } catch (error) {
       if (error instanceof NoBooksFoundException) {
         throw new NotFoundException(error.message);
+      } else {
+        throw error;
       }
-      throw error;
     }
   }
 
@@ -213,6 +219,9 @@ export class BookController {
   })
   async getBookById(@Param('id') bookId: number) {
     try {
+      if (!bookId || isNaN(bookId) || bookId <= 0) {
+        throw new BadRequestException('Invalid book ID');
+      }
       const book = await this._mongoBookRepository.findBookById(bookId);
 
       if (!book) {
@@ -223,8 +232,9 @@ export class BookController {
     } catch (error) {
       if (error instanceof BookNotFoundException) {
         throw new NotFoundException(error.message);
+      } else {
+        throw error;
       }
-      throw error;
     }
   }
 
@@ -252,15 +262,23 @@ export class BookController {
     @Param('id') bookId: number,
     @Body() updateBookDto: UpdateBookDto,
   ) {
-    if (Object.keys(updateBookDto).length === 0) {
-      throw new BadRequestException(
-        'At least one field must be provided for update.',
-      );
+    try {
+      if (Object.keys(updateBookDto).length === 0) {
+        throw new BadRequestException(
+          'At least one field must be provided for update.',
+        );
+      }
+      const service = new UpdateBookCommandHandler(this._mongoBookRepository);
+      const command = { id: bookId, ...updateBookDto };
+      const result = await service.execute(command);
+      return result.unwrap();
+    } catch (error) {
+      if (error instanceof BookNotFoundException) {
+        throw new NotFoundException(error.message);
+      } else {
+        throw error;
+      }
     }
-    const service = new UpdateBookCommandHandler(this._mongoBookRepository);
-    const command = { id: bookId, ...updateBookDto };
-    const result = await service.execute(command);
-    return result.unwrap();
   }
 
   @Delete(':id')
@@ -285,13 +303,23 @@ export class BookController {
     description: 'Invalid ID format',
   })
   async deleteBook(@Param('id') bookId: number) {
-    const service = new DeleteBookCommandHandler(this._mongoBookRepository);
-    const result = await service.execute({ id: bookId });
-    return result.unwrap();
+    try {
+      const service = new DeleteBookCommandHandler(this._mongoBookRepository);
+      const result = await service.execute({ id: bookId });
+      return result.unwrap();
+    } catch (error) {
+      if (error instanceof BookNotFoundException) {
+        throw new NotFoundException(error.message);
+      } else {
+        throw error;
+      }
+    }
   }
 
   @Post(':id/calculate-price')
-  @ApiOperation({ summary: 'Calculate suggested selling price in local currency' })
+  @ApiOperation({
+    summary: 'Calculate suggested selling price in local currency',
+  })
   @ApiParam({
     name: 'id',
     description: 'Book ID',
@@ -304,14 +332,15 @@ export class BookController {
     schema: {
       example: {
         bookId: 1,
-        title: 'The Lord of the Rings',
         costUsd: 25.99,
-        exchangeRate: 4000,
-        suggestedPriceLocal: 103960,
-        currency: 'COP',
-        timestamp: '2024-01-15T10:00:00.000Z'
-      }
-    }
+        exchangeRate: 257,
+        costLocal: 6679,
+        marginPercentage: 40,
+        sellingPriceLocal: 9351,
+        currency: 'VES',
+        calculationTimestamp: '2025-12-06T10:00:00.000Z',
+      },
+    },
   })
   @ApiResponse({
     status: 404,
@@ -332,23 +361,25 @@ export class BookController {
       const exchangeResponse = await axios.get(exchangeRateApi);
       exchangeRate = exchangeResponse.data.rates.VES;
       if (!exchangeRate) {
-        exchangeRate = 257.93;  // This value is the default in case of failure, in a real scenario it could be fetched from a config file or from the database.
+        exchangeRate = 257.93; // This value is the default in case of failure, in a real scenario it could be fetched from a config file or from the database.
         console.warn('Using default exchange rate for COP:', exchangeRate);
       }
       const profitMargin = 40;
       const command = { book, exchangeRate, profitMargin };
-      const service = new UpdateSellingPriceLocalCommandHandler(this._mongoBookRepository);
+      const service = new UpdateSellingPriceLocalCommandHandler(
+        this._mongoBookRepository,
+      );
       const response = await service.execute(command);
       return response.unwrap();
-
     } catch (error) {
       if (error instanceof BookNotFoundException) {
         throw new NotFoundException(error.message);
+      } else {
+        throw new HttpException(
+          `Failed to calculate price: ${error.message}`,
+          HttpStatus.INTERNAL_SERVER_ERROR,
+        );
       }
-      throw new HttpException(
-        `Failed to calculate price: ${error.message}`,
-        HttpStatus.INTERNAL_SERVER_ERROR
-      );
     }
   }
 }

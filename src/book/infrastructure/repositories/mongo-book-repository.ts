@@ -15,34 +15,29 @@ export class MongoBookRepository implements BookRepository {
   ) {}
 
   async saveBook(book: Book): Promise<Book> {
-    try {
-      const bookData = BookMapper.toPersistence(book);
-      const existingBook = await this.bookModel
-        .findOne({ id: book.getId() })
-        .exec();
+    const bookData = BookMapper.toPersistence(book);
+    const existingBookById = await this.bookModel
+      .findOne({ id: book.getId() })
+      .exec();
 
-      if (existingBook) {
-        Object.assign(existingBook, bookData);
-        existingBook.updatedAt = new Date();
-        const updatedBook = await existingBook.save();
-        return BookMapper.toDomain(updatedBook);
-      } else {
-        const newBook = new this.bookModel({
-          ...bookData,
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        });
-        const savedBook = await newBook.save();
-        return BookMapper.toDomain(savedBook);
-      }
-    } catch (error) {
-      if (error.code === 11000) {
-        throw new Error(
-          `Book with ISBN ${book.getIsbn()} or ID ${book.getId()} already exists`,
-        );
-      }
-      throw error;
+    if (existingBookById) {
+      throw new Error(`Book with ID ${book.getId()} already exists`);
     }
+
+    const existingBookByIsbn = await this.bookModel
+      .findOne({ isbn: book.getIsbn() })
+      .exec();
+
+    if (existingBookByIsbn) {
+      throw new Error(`Book with Isbn ${book.getIsbn()} already exists`);
+    }
+    const newBook = new this.bookModel({
+      ...bookData,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
+    const savedBook = await newBook.save();
+    return BookMapper.toDomain(savedBook);
   }
 
   async findAllBooks(

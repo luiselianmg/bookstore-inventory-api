@@ -42,7 +42,7 @@ export class UpdateBookCommandHandler implements ApplicationService<
         book.setSellingPriceLocal(data.sellingPriceLocal);
       }
       await this._bookRepository.updateBookById(data.id, book);
-      return Result.success<UpdateBookResponse>(new UpdateBookResponse());
+      return Result.success<UpdateBookResponse>(new UpdateBookResponse(book));
     } catch (error) {
       return Result.failure<UpdateBookResponse>(error);
     }

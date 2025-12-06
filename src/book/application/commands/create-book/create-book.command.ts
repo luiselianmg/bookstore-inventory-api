@@ -28,7 +28,7 @@ export class CreateBookCommandHandler implements ApplicationService<
         data.sellingPriceLocal,
       );
       await this._bookRepository.saveBook(book);
-      return Result.success<CreateBookResponse>(new CreateBookResponse());
+      return Result.success<CreateBookResponse>(new CreateBookResponse(book));
     } catch (error) {
       return Result.failure<CreateBookResponse>(error);
     }

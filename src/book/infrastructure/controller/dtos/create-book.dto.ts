@@ -30,7 +30,7 @@ export class CreateBookDto {
 
   @IsNumber()
   @IsNotEmpty()
-  @Min(0, { message: 'Cost must be a positive number' })
+  @Min(1, { message: 'Cost must be a positive number' })
   @ApiProperty({
     description: 'Cost in USD',
     example: 25.99
@@ -67,7 +67,7 @@ export class CreateBookDto {
   @Min(0, { message: 'Selling price cannot be negative' })
   @ApiProperty({
     description: 'Selling price in local currency',
-    example: 95000,
+    example: 1000,
     required: false
   })
   sellingPriceLocal?: number;

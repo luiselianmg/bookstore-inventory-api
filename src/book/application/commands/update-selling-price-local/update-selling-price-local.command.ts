@@ -18,7 +18,16 @@ export class UpdateSellingPriceLocalCommandHandler implements ApplicationService
       const localPrice = Math.round(book.getCostUsd() * exchangeRate);
       book.setSellingPriceLocal(localPrice + localPrice * (profitMargin/100));
       await this._bookRepository.updateBookById(book.getId(), book);
-      return Result.success<UpdateSellingPriceLocalResponse>(new UpdateSellingPriceLocalResponse());
+      return Result.success<UpdateSellingPriceLocalResponse>(new UpdateSellingPriceLocalResponse(
+        book.getId(),
+        book.getCostUsd(),
+        exchangeRate,
+        localPrice,
+        profitMargin,
+        book.getSellingPriceLocal(),
+        'VES',
+        new Date(),
+      ));
     } catch (error) {
       return Result.failure<UpdateSellingPriceLocalResponse>(error);
     }
